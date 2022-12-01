@@ -92,6 +92,10 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 		excluded := contains(excludedRepos, repo.MirrorConfig.Url)
 		if !excluded {
 			for _, googleRepo := range googleRepos {
+				if googleRepo.MirrorConfig == nil {
+					// not a mirror repo
+					continue
+				}
 				if googleRepo.MirrorConfig.Url == repo.MirrorConfig.Url {
 					alreadyMirrored = true
 				}
