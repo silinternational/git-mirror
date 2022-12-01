@@ -14,7 +14,6 @@ const (
 // Returns a list of repos that aren't in the excluded file and
 // are not in the google project
 func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
-
 	// Retrieve the repositories from the google project
 	googleRepos, err := RequestGoogleData()
 	if err != nil {

@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"main/utils"
 	"strings"
+
+	"github.com/silinternational/git-mirror/utils"
 )
 
 const (
@@ -12,7 +13,6 @@ const (
 )
 
 func main() {
-
 	// Get a slice of non mirrored repos
 	nonMirroredRepos, err := utils.GetNonMirroredRepos()
 	if err != nil {

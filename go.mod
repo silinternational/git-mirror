@@ -1,4 +1,4 @@
-module main
+module github.com/silinternational/git-mirror
 
 go 1.19
 
