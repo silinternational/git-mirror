@@ -1,3 +1,0 @@
-https://github.com/silinternational/google-api-php-client-mock
-https://bitbucket.org/silintl/insite-access-groups.git
-https://bitbucket.org/silintl/docker-php-web.git

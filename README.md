@@ -3,3 +3,4 @@ Simple script to create Google mirrors for GitHub and BitBucket repos and config
 
 ## Local setup
 - Copy example.env to local.env and fill in the values
+- Create a file excluded.txt containing a list of repositories to exclude
