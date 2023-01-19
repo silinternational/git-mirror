@@ -31,7 +31,7 @@ func WriteGitReposToFile(FileName string) {
 		}
 	}
 
-	err := writeToFile(fmt.Sprintf("%s.txt", FileName), repoData)
+	err := WriteToFile(fmt.Sprintf("%s.txt", FileName), repoData)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,9 +39,7 @@ func WriteGitReposToFile(FileName string) {
 	fmt.Printf("Printed repositories to \"%s.txt\"\n", FileName)
 }
 
-func WriteMirrorsToFile(FileName string, mirrors []sourcerepo.Repo) {
-	var data string
-
+func mirrorData(mirrors []sourcerepo.Repo) (data string) {
 	for i, r := range mirrors {
 		data += "Repo " + strconv.Itoa(i) + ":\n"
 		data += "\tName: " + r.Name + "\n"
@@ -52,13 +50,10 @@ func WriteMirrorsToFile(FileName string, mirrors []sourcerepo.Repo) {
 		data += "\t\tMirror_DeployKeyID: " + r.MirrorConfig.DeployKeyId + "\n"
 		data += "\n"
 	}
-	err := writeToFile(FileName, data)
-	if err != nil {
-		panic(err)
-	}
+	return data
 }
 
-func writeToFile(fileName string, data string) error {
+func WriteToFile(fileName string, data string) error {
 	file, err := os.Create(fileName)
 	if err != nil {
 		return err

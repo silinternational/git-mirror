@@ -110,7 +110,7 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 }
 
 // Creates google mirrors for the repositories in the nonMirroredRepos array.
-func MirrorRepos(nonMirroredRepos []sourcerepo.Repo, fileName string) {
+func MirrorRepos(nonMirroredRepos []sourcerepo.Repo) string {
 	mirroredRepos := []sourcerepo.Repo{}
 	for _, repo := range nonMirroredRepos {
 		mirror, err := CreateGoogleMirror(repo)
@@ -119,7 +119,7 @@ func MirrorRepos(nonMirroredRepos []sourcerepo.Repo, fileName string) {
 		}
 		mirroredRepos = append(mirroredRepos, *mirror)
 	}
-	WriteMirrorsToFile(fileName, mirroredRepos)
+	return mirrorData(mirroredRepos)
 }
 
 // Checks to see if string s is in string array a

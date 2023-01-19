@@ -31,7 +31,11 @@ func main() {
 
 	switch strings.ToLower(answer) {
 	case "y", "yes":
-		utils.MirrorRepos(nonMirroredRepos, fileName)
+		data := utils.MirrorRepos(nonMirroredRepos)
+		err = utils.WriteToFile(fileName, data)
+		if err != nil {
+			panic(err)
+		}
 		fmt.Println("The names of the new mirrors are recorded in the text file: " + fileName)
 	case "n", "no":
 		fmt.Println("No new mirrors were created.")
