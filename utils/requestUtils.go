@@ -3,6 +3,7 @@ package utils
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -27,8 +28,17 @@ func init() {
 	googleCredentialFile = os.Getenv("GOOGLE_CREDENTIAL_FILE")
 }
 
-// Returns GH repo data that has items listed in GHItems struct
+var (
+	ErrorMissingGitHubURL    = errors.New("missing GITHUB_URL value")
+	ErrorMissingBitbucketURL = errors.New("missing BITBUCKET_URL value")
+)
+
+// RequestGitHubData returns GH repo data that has items listed in GHItems struct
 func RequestGitHubData(page int) (GHJSONData, error) {
+	if gitHubUrl == "" {
+		return nil, ErrorMissingGitHubURL
+	}
+
 	res, err := http.Get(fmt.Sprintf("%s?sort=full_name&per_page=100&page=%d", gitHubUrl, page))
 	if err != nil {
 		return GHJSONData{}, err
@@ -41,7 +51,7 @@ func RequestGitHubData(page int) (GHJSONData, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return GHJSONData{}, err
+		return GHJSONData{}, fmt.Errorf("error returned from GitHub: %s", body)
 	}
 
 	data := GHJSONData{}
@@ -53,8 +63,12 @@ func RequestGitHubData(page int) (GHJSONData, error) {
 	return data, nil
 }
 
-// Returns BB repo data that has items listed in GHItems struct
+// RequestBitBucketData returns BB repo data that has items listed in GHItems struct
 func RequestBitBucketData(page int) (BBJSONData, error) {
+	if bitbucketUrl == "" {
+		return BBJSONData{}, ErrorMissingBitbucketURL
+	}
+
 	res, err := http.Get(fmt.Sprintf("%s?page=%d", bitbucketUrl, page))
 	if err != nil {
 		return BBJSONData{}, err
@@ -66,7 +80,7 @@ func RequestBitBucketData(page int) (BBJSONData, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return BBJSONData{}, err
+		return BBJSONData{}, fmt.Errorf("error returned from Bitbucket: %s", body)
 	}
 
 	data := BBJSONData{}
@@ -78,8 +92,12 @@ func RequestBitBucketData(page int) (BBJSONData, error) {
 	return data, nil
 }
 
-// Gets a slice of all available repositories on the Google project
+// RequestGoogleData gets a slice of all available repositories on the Google project
 func RequestGoogleData() ([]*sourcerepo.Repo, error) {
+	if googleProjectString == "" || googleCredentialFile == "" {
+		return nil, fmt.Errorf("Google configuration is incomplete")
+	}
+
 	ctx := context.Background()
 	b, err := os.ReadFile(googleCredentialFile)
 	if err != nil {

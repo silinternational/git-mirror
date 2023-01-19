@@ -24,7 +24,7 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 	githubRepos := GHJSONData{}
 	for i := 1; true; i++ {
 		data, err := RequestGitHubData(i)
-		if err != nil {
+		if err != nil && err != ErrorMissingGitHubURL {
 			return []sourcerepo.Repo{}, err
 		}
 
@@ -40,7 +40,7 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 
 	for i := 1; true; i++ {
 		data, err := RequestBitBucketData(i)
-		if err != nil {
+		if err != nil && err != ErrorMissingBitbucketURL {
 			return []sourcerepo.Repo{}, err
 		}
 
