@@ -27,7 +27,11 @@ func main() {
 
 	// Request confirmation to confirm
 	var answer string
-	fmt.Scanf("Would you like to mirror these repositories on Google? (y/n): %s", &answer)
+	fmt.Print("Would you like to mirror these repositories on Google? (y/n):")
+	_, err = fmt.Scanf("%s", &answer)
+	if err != nil {
+		panic(err)
+	}
 
 	switch strings.ToLower(answer) {
 	case "y", "yes":
