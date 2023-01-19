@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 
@@ -34,7 +34,7 @@ func RequestGitHubData(page int) (GHJSONData, error) {
 		return GHJSONData{}, err
 	}
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		return GHJSONData{}, err
@@ -59,7 +59,7 @@ func RequestBitBucketData(page int) (BBJSONData, error) {
 	if err != nil {
 		return BBJSONData{}, err
 	}
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		return BBJSONData{}, err
@@ -81,7 +81,7 @@ func RequestBitBucketData(page int) (BBJSONData, error) {
 // Gets a slice of all available repositories on the Google project
 func RequestGoogleData() ([]*sourcerepo.Repo, error) {
 	ctx := context.Background()
-	b, err := ioutil.ReadFile(googleCredentialFile)
+	b, err := os.ReadFile(googleCredentialFile)
 	if err != nil {
 		return []*sourcerepo.Repo{}, err
 	}
@@ -107,7 +107,7 @@ func RequestGoogleData() ([]*sourcerepo.Repo, error) {
 
 func CreateGoogleMirror(repo sourcerepo.Repo) (*sourcerepo.Repo, error) {
 	ctx := context.Background()
-	b, err := ioutil.ReadFile(googleCredentialFile)
+	b, err := os.ReadFile(googleCredentialFile)
 	if err != nil {
 		return &sourcerepo.Repo{}, err
 	}

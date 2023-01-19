@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"google.golang.org/api/sourcerepo/v1"
@@ -55,7 +55,7 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 	}
 
 	// Retrieve a list of repos that must be excluded from mirroring
-	body, err := ioutil.ReadFile(excludedFile)
+	body, err := os.ReadFile(excludedFile)
 	if err != nil {
 		return []sourcerepo.Repo{}, err
 	}
