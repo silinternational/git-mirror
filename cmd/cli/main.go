@@ -19,6 +19,11 @@ func main() {
 		panic(err)
 	}
 
+	if len(nonMirroredRepos) == 0 {
+		fmt.Println("found no repos to mirror")
+		return
+	}
+
 	// Output the names of all the non mirrored repos
 	fmt.Print("The following repositories are not mirrored: \n\n")
 	for i, repo := range nonMirroredRepos {
