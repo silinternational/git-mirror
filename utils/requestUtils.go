@@ -6,23 +6,30 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sourcerepo/v1"
 )
 
-const (
-	githubUrl            string = "https://api.github.com/orgs/silinternational/repos"
-	bitbucketUrl         string = "https://api.bitbucket.org/2.0/repositories/silintl"
-	googleProjectString  string = "" // Replace the google project string with the appropriate link
-	googleCredentialFile string = "" // Replace the filename to the service account json credentials
-
+var (
+	gitHubUrl            string
+	bitbucketUrl         string
+	googleProjectString  string
+	googleCredentialFile string
 )
+
+func init() {
+	gitHubUrl = os.Getenv("GITHUB_URL")
+	bitbucketUrl = os.Getenv("BITBUCKET_URL")
+	googleProjectString = os.Getenv("GOOGLE_PROJECT_STRING")
+	googleCredentialFile = os.Getenv("GOOGLE_CREDENTIAL_FILE")
+}
 
 // Returns GH repo data that has items listed in GHItems struct
 func RequestGitHubData(page int) (GHJSONData, error) {
-	res, err := http.Get(fmt.Sprintf("%s?sort=full_name&per_page=100&page=%d", githubUrl, page))
+	res, err := http.Get(fmt.Sprintf("%s?sort=full_name&per_page=100&page=%d", gitHubUrl, page))
 	if err != nil {
 		return GHJSONData{}, err
 	}
