@@ -19,6 +19,7 @@ var (
 	bitbucketUrl         string
 	googleProjectString  string
 	googleCredentialFile string
+	googleAdminEmail     string
 )
 
 func init() {
@@ -26,6 +27,7 @@ func init() {
 	bitbucketUrl = os.Getenv("BITBUCKET_URL")
 	googleProjectString = os.Getenv("GOOGLE_PROJECT_STRING")
 	googleCredentialFile = os.Getenv("GOOGLE_CREDENTIAL_FILE")
+	googleAdminEmail = os.Getenv("GOOGLE_ADMIN_EMAIL")
 }
 
 var (
@@ -94,7 +96,7 @@ func RequestBitBucketData(page int) (BBJSONData, error) {
 
 // RequestGoogleData gets a slice of all available repositories on the Google project
 func RequestGoogleData() ([]*sourcerepo.Repo, error) {
-	if googleProjectString == "" || googleCredentialFile == "" {
+	if googleProjectString == "" || googleCredentialFile == "" || googleAdminEmail == "" {
 		return nil, fmt.Errorf("Google configuration is incomplete")
 	}
 
@@ -135,6 +137,7 @@ func CreateGoogleMirror(repo sourcerepo.Repo) (*sourcerepo.Repo, error) {
 	}
 
 	client := config.Client(ctx)
+	config.Subject = googleAdminEmail
 
 	sourcerepoService, err := sourcerepo.NewService(ctx, option.WithHTTPClient(client))
 	if err != nil {
