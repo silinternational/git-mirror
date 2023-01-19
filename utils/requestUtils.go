@@ -103,23 +103,23 @@ func RequestGoogleData() ([]*sourcerepo.Repo, error) {
 	ctx := context.Background()
 	b, err := os.ReadFile(googleCredentialFile)
 	if err != nil {
-		return []*sourcerepo.Repo{}, err
+		return nil, err
 	}
 	config, err := google.JWTConfigFromJSON(b, "https://www.googleapis.com/auth/cloud-platform")
 	if err != nil {
-		return []*sourcerepo.Repo{}, err
+		return nil, err
 	}
 
 	client := config.Client(ctx)
 
 	sourcerepoService, err := sourcerepo.NewService(ctx, option.WithHTTPClient(client))
 	if err != nil {
-		return []*sourcerepo.Repo{}, err
+		return nil, err
 	}
 
 	resp, err := sourcerepoService.Projects.Repos.List(googleProjectString).Do()
 	if err != nil {
-		return resp.Repos, err
+		return nil, err
 	}
 
 	return resp.Repos, nil
