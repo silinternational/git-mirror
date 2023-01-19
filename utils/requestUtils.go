@@ -145,7 +145,7 @@ func CreateGoogleMirror(repo sourcerepo.Repo) (*sourcerepo.Repo, error) {
 	}
 
 	mirror, err := sourcerepoService.Projects.Repos.Create(googleProjectString, &sourcerepo.Repo{
-		Name:         repo.Name,
+		Name:         fmt.Sprintf("%s/repos/%s", googleProjectString, repo.Name),
 		MirrorConfig: repo.MirrorConfig,
 	}).Do()
 	if err != nil {
