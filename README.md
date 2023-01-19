@@ -1,3 +1,6 @@
+# Archived
+This repository is archived due to lack of Google API support. [Reference](https://issuetracker.google.com/issues/73122477?pli=1)
+
 # SIL_Mirror_Project
 Simple script to create Google mirrors for GitHub and BitBucket repos and configure the mirrors with WebHooks
 
