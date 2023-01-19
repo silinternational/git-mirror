@@ -28,11 +28,11 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 			return []sourcerepo.Repo{}, err
 		}
 
-		githubRepos = append(githubRepos, data...)
-
 		if len(data) == 0 || i > 5 {
 			break
 		}
+
+		githubRepos = append(githubRepos, data...)
 	}
 
 	// Retrieve repo data from Bit Bucket
@@ -44,11 +44,11 @@ func GetNonMirroredRepos() ([]sourcerepo.Repo, error) {
 			return []sourcerepo.Repo{}, err
 		}
 
-		bitbucketRepos.Values = append(bitbucketRepos.Values, data.Values...)
-
 		if len(bitbucketRepos.Values) == 0 || i > 5 {
 			break
 		}
+
+		bitbucketRepos.Values = append(bitbucketRepos.Values, data.Values...)
 	}
 	if err != nil {
 		return []sourcerepo.Repo{}, err
