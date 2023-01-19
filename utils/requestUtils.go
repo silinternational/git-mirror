@@ -131,7 +131,7 @@ func CreateGoogleMirror(repo sourcerepo.Repo) (*sourcerepo.Repo, error) {
 	if err != nil {
 		return &sourcerepo.Repo{}, err
 	}
-	config, err := google.JWTConfigFromJSON(b, "https://www.googleapis.com/auth/cloud-platform")
+	config, err := google.JWTConfigFromJSON(b, sourcerepo.CloudPlatformScope, sourcerepo.SourceFullControlScope)
 	if err != nil {
 		return &sourcerepo.Repo{}, err
 	}
